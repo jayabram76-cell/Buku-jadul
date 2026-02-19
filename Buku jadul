@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dapoer Jadoel - Resep Tradisional Indonesia</title>
+    <style>
+        /* --- CSS (Desain & Tampilan) --- */
+        :root {
+            --primary-color: #5d4037; /* Coklat Tua */
+            --secondary-color: #8d6e63; /* Coklat Muda */
+            --accent-color: #d84315; /* Merah Oranye */
+            --bg-color: #fdf5e6; /* Krem Putih */
+            --text-color: #3e2723;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-bottom: 4px solid var(--accent-color);
+        }
+
+        header h1 {
+            margin: 0;
+            font-family: 'Georgia', serif;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            margin: 5px 0 0;
+            font-style: italic;
+            color: #e0e0e0;
+        }
+
+        /* Container Utama */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Bagian Pencarian */
+        .search-box {
+            text-align: center;
+            margin-bottom: 40px;
+            margin-top: 20px;
+        }
+
+        .search-box input {
+            width: 70%;
+            padding: 15px;
+            font-size: 1.1rem;
+            border: 2px solid var(--secondary-color);
+            border-radius: 30px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(216, 67, 21, 0.2);
+        }
+
+        /* Grid Resep */
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        /* Kartu Resep */
+        .recipe-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #e0e0e0;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .recipe-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background-color: #ddd;
+        }
+
+        .recipe-info {
+            padding: 15px;
+        }
+
+        .recipe-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .recipe-type {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Modal Detail Resep */
+        .modal {
+            display: none; /* Tersembunyi default */
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 0;
+            width: 80%;
+            max-width: 700px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: slideDown 0.4s;
+        }
+
+        @keyframes slideDown {
+            from {top: -50px; opacity: 0;}
+            to {top: 0; opacity: 1;}
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .close-btn:hover {
+            color: var(--accent-color);
+        }
+
+        .modal-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .modal-body {
+            padding: 25px;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            color: var(--accent-color);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 20px;
+        }
+
+        .modal-body ul {
+            padding-left: 20px;
+        }
+
+        .modal-body li {
+            margin-bottom: 8px;
+        }
+
+        .back-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        
+        .back-btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            background-color: var(--primary-color);
+            color: #fff;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Website -->
+    <header>
+        <h1>Dapoer Jadoel</h1>
+        <p>Menyajikan Lezatnya Rasa Nusantara</p>
+    </header>
+
+    <div class="container">
+        <!-- Menu Pencarian -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Cari resep makanan atau minuman tradisional...">
+        </div>
+
+        <!-- Area Tampilan Daftar Resep -->
+        <div id="recipeContainer" class="recipe-grid">
+            <!-- Resep akan muncul di sini lewat Javascript -->
+        </div>
+    </div>
+
+    <!-- Modal Detail Resep -->
+    <div id="recipeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div class="modal-header">
+                <h2 id="modalTitle">Nama Resep</h2>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Isi detail resep -->
+            </div>
+            <button class="back-btn" onclick="closeModal()">Tutup & Kembali ke Daftar</button>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2023 Dapoer Jadoel. Harta Karun Kuliner Indonesia.
+    </footer>
+
+    <script>
+        /* --- JavaScript (Logika & Data) --- */
+
+        // 1. Database Resep (Mock Data)
+        const recipes = [
+            {
+                id: 1,
+                name: "Rendang Daging Sapi",
+                type: "Makanan",
+                image: "https://images.unsplash.com/photo-1599043513900-489f22695880?auto=format&fit=crop&w=500&q=60",
+                ingredients: [
+                    "1 kg daging sapi (potong tebal)",
+                    "1 liter santan kental",
+                    "200 ml santan encer",
+                    "4 lembar daun salam",
+                    "2 lembar daun kunyit",
+                    "1 batang serai (geprek)",
+                    "Bumbu halus: 8 siung bawang merah, 5 siung bawang putih, 1 sdm ketumbar, 1 sdt jintan, 5 buah cabe merah besar, jahe, kunyit, dan lengkuas"
+                ],
+                tools: [
+                    "Panci besar (pressure cooker lebih baik)",
+                    "Cobek atau blender",
+                    "Sendok kayu"
+                ],
+                steps: [
+                    "Tumis bumbu halus hingga harum.",
+                    "Masukkan daging sapi, aduk hingga berubah warna.",
+                    "Tuang santan kental, daun salam, serai, dan daun kunyit.",
+                    "Masak dengan api kecil selama 2-3 jam (atau hingga empuk dan kering) sambil terus diaduk agar tidak gosong.",
+                    "Jika sudah kering dan berminyak, rendang siap dihidangkan."
+                ]
+            },
+            {
+                id: 2,
+                name: "Soto Ayam Lamongan",
+                type: "Makanan",
+                image: "https://images.unsplash.com/photo-1626804475297-411dbe0a825e?auto=format&fit=crop&w=500&q=60",
+                ingredients: [
+                    "1 ekor ayam (potong 4)",
+                    "2 liter air",
+                    "Bumbu halus: 6 siung bawang merah, 4 siung bawang putih, kunyit, jahe, merica",
+                    "2 lembar daun salam, 2 lembar daun jeruk",
+                    "1 batang serai",
+                    "Telur rebus, bihun, kol, daun seledri, bawang goreng"
+                ],
+                tools: [
+                    "Panci besar",
+                    "Saringan (soup strainer)",
+                    "Mangkuk saji"
+                ],
+                steps: [
+                    "Rebus ayam dengan air mendidih hingga matang. Angkat dan suwir-suwir dagingnya.",
+                    "Tumis bumbu halus hingga harum, lalu masukkan ke dalam kaldu ayam.",
+                    "Tambahkan daun salam, serai, dan daun jeruk. Masak selama 15 menit.",
+                    "Saring kuah Soto agar bersih.",
+                    "Sajikan dengan nasi, ayam suwir, bihun, kol, telur rebus, dan taburan bawang goreng."
+                ]
+            },
+            {
+                id: 3,
+                name: "Es Teh Manis",
+                type: "Minuman",
+                image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=500&q=60",
+                ingredients: [
+                    "2 kantong teh celup (bisa teh hitam atau melati)",
+                    "200 ml air panas",
+                    "2-3 sdm gula pasir (sesuai selera)",
+                    "Es batu secukupnya",
+                    "200 ml air matang dingin"
+                ],
+                tools: [
+                    "Gelas",
+                    "Sedotan",
+                    "Panci (untuk memanaskan air)"
+                ],
+                steps: [
+                    "Masukkan kantong teh ke dalam air panas. Diamkan selama 3-5 menit.",
+                    "Angkat kantong teh, tambahkan gula, aduk hingga larut.",
+                    "Diamkan hingga suhu ruang, lalu masukkan ke kulkas agar dingin atau langsung tambahkan es batu.",
+                    "Tuang ke dalam gelas yang sudah berisi es batu.",
+                    "Aduk perlahan dan hidangkan."
+                ]
+            },
+            {
+                id: 4,
+                name: "Nasi Goreng Special",
+                type: "Makanan",
+                image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop
