@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dapoer Jadoel - Resep Tradisional Indonesia</title>
+    <!-- Menghubungkan ke file CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Google untuk kesan tradisional -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header Website -->
+    <header>
+        <div class="header-content">
+            <h1>Dapoer Jadoel</h1>
+            <p>Menyajikan Lezatnya Rasa Nusantara</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Bagian Pencarian -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Cari resep makanan atau minuman tradisional...">
+            <span class="search-icon">🔍</span>
+        </div>
+
+        <!-- Area Tampilan Daftar Resep -->
+        <div id="recipeContainer" class="recipe-grid">
+            <!-- Resep akan dimuat di sini oleh JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modal Detail Resep -->
+    <div id="recipeModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div class="modal-header">
+                <h2 id="modalTitle">Nama Resep</h2>
+                <span id="modalType" class="badge">Makanan</span>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Isi detail resep -->
+            </div>
+            <button class="back-btn" onclick="closeModal()">Tutup & Kembali ke Daftar</button>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2023 Dapoer Jadoel. Harta Karun Kuliner Indonesia.
+    </footer>
+
+    <!-- Menghubungkan ke file JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
